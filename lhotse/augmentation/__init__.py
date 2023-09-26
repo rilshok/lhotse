@@ -1,4 +1,5 @@
 from .common import AugmentFn
+from .defragmentation import Defragmentation
 from .loudness import LoudnessNormalization
 from .rir import ReverbWithImpulseResponse
 from .torchaudio import *
