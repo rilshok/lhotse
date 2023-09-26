@@ -4,7 +4,7 @@ from typing import Iterable, List, Optional, Tuple
 import numpy as np
 from intervaltree import IntervalTree  # type: ignore
 
-from lhotse.tools.trimmer import TrimmerTree
+from lhotse.tools.trimming import TrimmingTree
 from lhotse.utils import Seconds
 
 from .transform import AudioTransform
@@ -30,7 +30,7 @@ class Defragmentation(AudioTransform):
         return tree
 
     @property
-    def trimmer(self) -> TrimmerTree:
+    def trimmer(self) -> TrimmingTree:
         tree = IntervalTree()
         tree.addi(-float("inf"), float("inf"))  # type: ignore
         intervals = self._intervals(self.segments)
@@ -38,7 +38,7 @@ class Defragmentation(AudioTransform):
             tree.slice(segment.begin)  # type: ignore
             tree.slice(segment.end)  # type: ignore
             tree.remove(segment)  # type: ignore
-        trimmer = TrimmerTree(0.0)
+        trimmer = TrimmingTree(0.0)
         for interval in tree:  # type: ignore
             trimmer.add_interval(interval.begin, interval.end)  # type: ignore
         return trimmer
